@@ -1,0 +1,36 @@
+name: DevOps Practice Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: 🔨 Build/Test on Push or PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Echo Commit Info
+        run: echo "Commit pushed by ${{ github.actor }} on branch ${{ github.ref }}"
+
+      - name: Run build step
+        run: echo "Running build/tests..."
+
+  deploy:
+    name: 🚀 Deploy on Merge to main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Simulate Deployment
+        run: echo "🎉 Deploying to production branch (main)... triggered by merge!"
+
